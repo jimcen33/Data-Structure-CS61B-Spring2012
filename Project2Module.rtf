@@ -1,0 +1,185 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww25100\viewh13720\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0\fs36 \cf0 Team member: Guojing Cen, Shiyun huang, Yuliang guan\
+\
+\
+\
+public class Machineplayer extends Player\{\
+\
+public static final int DEPTH=10;\
+private int color;\
+private int depth;\
+private Gameboard board;\
+\
+
+\f1 //Get color.\
+public int getColor()\{\
+\}\
+\
+\
+//return score of current board.\
+public int getBoardScore()\{\
+\}\
+\
+\
+\pard\pardeftab720\ql\qnatural
+\cf0   // Creates a machine player with the given color.  Color is either 0 (black)\
+  // or 1 (white).  (White has the first move.)\
+  public MachinePlayer(int color) \{\
+  \}\
+\
+  // Creates a machine player with the given color and search depth.  Color is\
+  // either 0 (black) or 1 (white).  (White has the first move.)\
+  public MachinePlayer(int color, int searchDepth) \{\
+  \}\
+\
+  // Returns a new move by "this" player.  Internally records the move (updates\
+  // the internal game board) as a move by "this" player.\
+  public Move chooseMove() \{\
+  \} \
+\
+  // If the Move m is legal, records the move as a move by the opponent\
+  // (updates the internal game board) and returns true.  If the move is\
+  // illegal, returns false without modifying the internal state of "this"\
+  // player.  This method allows your opponents to inform you of their moves.\
+  public boolean opponentMove(Move m) \{\
+  \}\
+\
+  // If the Move m is legal, records the move as a move by "this" player\
+  // (updates the internal game board) and returns true.  If the move is\
+  // illegal, returns false without modifying the internal state of "this"\
+  // player.  This method is used to help set up "Network problems" for your\
+  // player to solve.\
+  public boolean forceMove(Move m) \{\
+  \}\
+\
+\}\
+\
+\
+\
+public class Gameboard\{\
+\
+\
+//\
+private int[][]board;\
+private MachinePlayer player;\
+public static final boolean SELF= true;\
+private int chipNumber;\
+public static final int EMPTY=0;\
+public static final int BLACK=1;\
+public static final int WHITE=2;\
+public static final int WHITEWIN=100;\
+public static final int BLACKWIN=-100;\
+\
+\
+\pard\pardeftab720\ql\qnatural
+\cf0 //Creates a Gameboard with the given player\
+//\
+public Gameboard(Player p)\{\
+\}\
+\pard\pardeftab720\ql\qnatural
+\cf0 \
+//Return the content(chip) of the cell.\
+//x,y are the coordinates of a cell.\
+public int cellContent(int x, int y)\{\
+\}  \
+\
+//Return an array of its neighbors around a given position.\
+public int[] neighbors(int x, int y)\{\
+\}\
+\
+//add a chip in the given position.\
+public void addChip(int color, int x, int y)\{\
+\}\
+\
+\
+//Move a chip from the original position to the new position. \
+public void moveChip(int srcX, int srcY, int desX, int desY)\{\
+\}\
+\
+//If the move is valid, perform the move and return true. \
+public boolean performMove(int color, Move m)\{\
+\}\
+\
+//Undo the performed move.Use in chooseMove().\
+public void undoMove(int color, Move m)\{\
+\}\
+\
+//Test whether the potential move is to the corner.\
+public boolean checkCorner(int x, int y)\{\
+\}\
+\
+//Test whether the potential move is to the goal of the opposite color.\
+public boolean checkOppositeGoal(int x, int y)\{\
+\}\
+\
+//Test whether the potential move is to a square that is already occupied.\
+public boolean checkOccupied (int x, int y)\{\
+\}\
+\
+//Test whether the potential move will form cluster with other two existed chips.\
+public boolean checkCluster(int x, int y)\{\
+\}\
+ \
+//Test whether the potential move is valid or not.\
+//x,y are coordinate of the potential move. \
+public boolean isValidMove(int x, int y)\{\
+\}\
+\
+//Generate a DList of valid Moves.\
+\
+public DList generateMoves()\{\
+//first use moveKind to test the next move should be which kind of move\
+//then walk through every cell of the gameboard and test whether it's a valid move, \
+//if a potential move is a valid move, insert it into the DList. \
+\}\
+\
+//return the current move kind for this gameboard.\
+public int moveKind()\{\
+\}\
+\
+\
+//evaluation function for a current board configuration. \
+public int evaluate()\{\
+\}\
+\
+//helper function for evaluation function find how many possible networks are in the current board.\
+public int findNetworks(int x, int y)\{ \
+\}\
+\
+//the main method of the program. THe chooseMove method in the MachinePlayer class will call this method to get the best move.\
+public BestMove chooseMove(int alpha, int beta, boolean side, int depth)\{\
+\}\
+\
+\
+\
+public class BestMove extends Move\{\
+\
+ protected int score;\
+ \
+//Construct an Add BestMove.\
+public BestMove(int x,int y)\{\
+\}\
+\
+//Construct a quit BestMove.\
+public BestMove()\{\
+\}\
+\
+//Construct a step BestMove.\
+public BestMove(int srcX, int srcY, int desX, int desY)\{\
+\}\
+\
+\
+\
+\
+\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0 \cf0 \
+}

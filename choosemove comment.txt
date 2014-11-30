@@ -1,0 +1,80 @@
+// the main method of the program. The chooseMove method in the
+	// MachinePlayer class will call this method to get the best move.
+	// @param alpha is a score that the white chip Player knows with certainty it
+	// can achieve(positive integer).
+	// @param beta is a score that the opponent Player knows witn certainty it 
+	// can achieve(negative integer).
+	// @param depth is the remained search depth.
+	// @param color is the Player's Chip color.
+	public BestMove chooseMove(int alpha, int beta, int depth, int color) {
+		BestMove myBest = new BestMove(); // My best move;
+		BestMove bestReply;        //Opponent's best reply;
+		ListNode node;       //the current node (stored item Move) of a list valid Move.
+		
+		int j = evaluate(color);  //evaluate the winning certainty of this Player with this color. 
+		if (color == WHITE) {  //initialize an alpha score to the WHITE Chip Player or a beta score to the BLACK Chip Player.
+			myBest.score = alpha;
+		} else {
+			myBest.score = beta;
+		}
+
+		if (chipNumber < 2) {  //Choose first move at the top row of the board if the Player with BLACK Chip.   
+							   //otherwise choose first move at the leftmost column.
+			if (color == BLACK) {
+				myBest.move = new Move(4, 0);
+			} else {
+				myBest.move = new Move(0, 4);
+			}
+			return myBest;
+		} else if (chipNumber < 4) { //Choose second move at the bottom row of the board if the Player with BLACK Chip.   
+							        //otherwise choose second move at the rightmost column.
+			if (color == BLACK) {
+				myBest.move = new Move(3, 7);
+			} else {
+				myBest.move = new Move(7, 3);
+			}
+			return myBest;
+		} else if (j == BLACKWIN) { //if network is found, assign a score relative to the current depth in myBest. And return myBest.
+			myBest.score = j - depth;
+			return myBest;
+		} else if (j == WHITEWIN) {  
+			myBest.score = j + depth;
+			return myBest;
+		} else if (depth == 0) {  //if chooseMove reaches the bottom of the search, assign evaluate J to myBest's score and retrun myBest. 
+			myBest.score = j;
+			return myBest;
+		} else {
+			try {
+				List listMove = generateMoves(color); //generate a list possible vaild Move.
+				for (node = listMove.front(); node.isValidNode(); node = node
+						.next()) { //for each valid Move, 
+					Move m = (Move) node.item();
+					performMove(color, m);    // perform Move in this Board.
+					int g = depth - 1;
+					if (color == WHITE) { //recursive call to the next chooseMove.
+						bestReply = chooseMove(alpha, beta, g, BLACK);
+					} else {
+						bestReply = chooseMove(alpha, beta, g, WHITE);
+					}
+					undoMove(color, m);  // restore the Move in this Board.
+					if ((color == WHITE) && (bestReply.score > myBest.score)) {
+						myBest.move = m;
+						myBest.score = bestReply.score;
+						alpha = bestReply.score;
+					} else if ((color == BLACK)
+							&& (bestReply.score < myBest.score)) {
+						myBest.move = m;
+						myBest.score = bestReply.score;
+						beta = bestReply.score;
+					}
+					if (alpha >= beta) { //if alpha is found to be bigger than beta, end this search and return myBest.  
+						return myBest;
+					}
+				}
+			} catch (InvalidNodeException ex) {
+				System.err.println(ex);
+			}
+		}
+		return myBest;
+	}
+}

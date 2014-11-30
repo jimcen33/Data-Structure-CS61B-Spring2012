@@ -1,0 +1,71 @@
+public BestMove chooseMove(int alpha, int beta, boolean side, int depth,int color){
+  BestMove mybest= new BestMove();
+  BestMove bestReply;
+  DList listMove=new genarateMove(color);
+  DListNode node;
+  
+  
+  if(((depth==0)||(potentialNetworkCount==1))&&(side==MACHINE)){
+    mybest.score=countMove*evaluate();
+    return mybest;
+    }
+  else if(((depth==0)||(potentialNetworkCount==1))&&(side==OPPONENT)) { 
+  			mybest.score = -countMove*evaluate();
+    	    return mybest;
+        }
+    
+  if (side==MACHINE) {
+  	mybest.score= alpha;
+  	}
+  	else { mybest.score = beta;
+  	}
+  	
+   if (chipNumber<2){
+   	   int chip = Math.abs(((int) Math.random())*10)-3);
+   	   if(color==BLACK){
+   	   mybest.move =new Move(chip,0);	
+  	   }
+  	   else { mybest.move= new Move(0,chip);
+  	   }
+  	   return mybest;
+  	 }
+   if(chipNumber<4){
+		int chip = Math.abs(((int) Math.random())*10)-3);
+   		if(color==BLACK){
+   			mybest.move=new Move(chip, LENGTH+1);
+   		else { mybest.move=new Move(LEGNTH+1,chip);
+   		}
+   	  return mybest;
+   	}
+   	else { 
+   	 node = listMove.front();
+   	 Move m=node.item;
+   	 for(int i=0; i<lisMove.lenghth(); i++){
+   	 	performMove(color, m);
+   	 	if(color==WHITE){
+   	 	bestReply = chooseMove(alpha, beta, !side, depth--, BLACK);
+   	 	}
+   		else { 
+   		bestReply = chooseMove(alpha, beta, !side,depth--,WHITE);
+   		}
+   		undoMove(color, m);
+   		if((side==MACHINE)&&(bestReply.score>myBest.score)) {
+   			mybest.move=m;
+   			mybest.score=bestRelpy.score;
+   		    alpha=bestReply.score;
+   		}
+   		else { if ((side==OPPONENT)&&(bestReply.score < mybest.score)){
+   					mybest.move = m;
+   					mybest.score = bestReply.score;
+   					beta = bestReply.score;
+   					}
+   			  }
+   		if (alpha >= beta) {
+   		 return mybest;
+   		 }
+   		node= listMove.next(node);
+   	     }
+   	   }
+   	   countMove++;
+   	   return mybest;
+}

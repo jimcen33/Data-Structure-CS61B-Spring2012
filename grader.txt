@@ -1,0 +1,190 @@
+// Creates a Gameboard with the given player
+	// @param p the MachinePlayer to be inserted.
+	public Gameboard(MachinePlayer p) {}
+
+//Get this player.
+	public MachinePlayer getPlayer() {}
+
+//Return a Chip of its given position.
+// @param x is the x coordiante of the Chip.
+// @param y is the y coordiante of the Chip.
+	public Chip cellContent(int x, int y) {}
+
+// Return an array of Chip of its neighbors around a given position.
+
+	public Chip[] neighbors(int x, int y) {}
+
+// Return the number of a certain color of neighbors around a given position
+	public int neighborNumber(int color, int x, int y) {}
+
+// add a chip in the given position.
+	public void addChip(int color, int x, int y) {}
+
+// remove a chip in the given position.
+	public void removeChip(int x, int y) {}
+	
+// Move a chip from the original position to the new position.
+	public void moveChip(int srcX, int srcY, int desX, int desY) {}
+	
+// check its moveKind and then perform the move and return true.
+	public boolean performMove(int color, Move m) {}
+	
+// Undo the performed move.Use in chooseMove().
+	public void undoMove(int color, Move m) {}
+
+// Test whether the potential move is in the bounds of the gameboard.
+	private boolean checkInBounds(int x, int y) {}
+	
+// Test whether the potential move is to the corner.
+	private boolean checkCorner(int x, int y) {}
+
+// Test whether the potential move is to the goal of the opposite color.
+	private boolean checkOppositeGoal(int x, int y, int color) {}
+
+// Test whether the potential move is to a square that is already occupied.
+	private boolean checkOccupied(int x, int y) {}
+
+// Test whether the potential move will form cluster with other two existed
+// chips.
+	private boolean checkCluster(int x, int y, int color) {}
+
+//	
+	public boolean validMove(Move m, int color) {}
+	
+// Test whether the potential move is valid or not.
+// x,y are coordinate of the potential move.
+	public boolean isValidMove(int x, int y, int v, int w, int color) {}
+	
+//
+	public List generateMoves(int color) {}
+
+//
+	public int moveKind() {}
+
+//	
+	public int evaluate(int color) {}
+
+//
+	public List search(Chip p, Connection.Direction d) {}
+	
+//
+	public Connection explore(Chip p, Connection.Direction d) {}
+
+//
+	public void NetworkHelper(List l, Chip p) {}
+
+//
+	public int findNetwork(int color) {}
+
+// the main method of the program. The chooseMove method in the
+// MachinePlayer class will call this method to get the best move.
+	public BestMove chooseMove(int alpha, int beta, int depth, int color) {}
+
+
+Connection class
+
+
+//Get the opposite direction of the current direction.
+//@param d is the current direction.
+public static Direction getOppositeDirection(Direction d){}
+
+//Construct a connection between two chip.
+//@param a is the x coordinate of center Chip ;
+//@param b is the y coordinate of center Chip ;
+//@param c is the x coordinate of the other Chip;
+//@param d is the y coordinate of the other Chip;
+public Connection(int a, int b, int c, int d){}
+
+//Construct a fixed set of Direction constants.
+public enum Direction{}
+
+// Set a new Direction of the center Chip.
+//@param d is the new Direction.
+  void setDirection(Direction d){}
+
+//Get a Direction of the center Chip.
+	Direction getDirection(){}
+  
+//Get the value of X coordinate of the center chip.   
+	int getCenterXcoord(){}
+	
+//Get the value of Y coordinate of the center chip.  
+  	int getCenterYcoord(){}
+  	
+//Get the value of X coordinate of the other chip.  
+  	int getConnectXcoord(){}
+
+//Get the value of Y coordinate of the other chip.  
+ 	 int getConnectYcoord(){}
+
+Chip class
+
+//Construct a Chip with given color and x,y coordinate.
+//@param color is either BLACK or WHITE.
+//@param x is the x coordinate.
+//@param x is the y coordinate.
+public Chip(int color, int x,int y){}
+	
+//Set the boolean Painted to False. 
+void erasePainted(){}
+
+//Set the boolean Painted to True. 
+void setPainted(){}
+
+//Get the value of the boolean Painted.
+boolean getPainted(){}
+
+//Get the color of this Chip.
+public int getColor(){}
+    
+// Get the value of the x coordinate of this Chip.
+public int getX(){}
+
+//Get the value of the y coordinate of this Chip.
+public int getY(){}
+
+BestMove class
+
+//Contains a Move and a score of this Move.
+
+MachinePlayer class
+
+/**
+ *  An implementation of an automatic Network player.  Keeps track of moves
+ *  made by both players.  Can select a move for itself.
+ */
+
+
+// Creates a machine player with the given color.  Color is either 0 (black)
+// or 1 (white).  (White has the first move.)
+  public MachinePlayer(int color) {}
+
+// Creates a machine player with the given color and search depth.  Color is
+// either 0 (black) or 1 (white).  (White has the first move.)
+  public MachinePlayer(int color, int searchDepth) {}
+
+// Returns a new move by "this" player.  Internally records the move (updates
+// the internal game board) as a move by "this" player.
+	public Move chooseMove() {}
+
+  // If the Move m is legal, records the move as a move by the opponent
+  // (updates the internal game board) and returns true.  If the move is
+  // illegal, returns false without modifying the internal state of "this"
+  // player.  This method allows your opponents to inform you of their moves.
+  public boolean opponentMove(Move m) {}
+
+  // If the Move m is legal, records the move as a move by "this" player
+  // (updates the internal game board) and returns true.  If the move is
+  // illegal, returns false without modifying the internal state of "this"
+  // player.  This method is used to help set up "Network problems" for your
+  // player to solve.
+  public boolean forceMove(Move m) {}
+  
+//Get the color of this MachinePlayer.  
+ public int getColor(){}
+
+//Get the value of the search depth of this MachinePlayer.
+	public int getDepth(){}
+	
+//Get the opponent color of this MachinePlayer.  	
+ 	public int getOpponentColor(){}
